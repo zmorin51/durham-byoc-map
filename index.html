@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Bring Your Own Cup in Durham</title>
+  <meta name="description" content="Map of coffee shops in Durham, New Hampshire that welcome reusable cups.">
+
+  <!--
+    HOW THIS PAGE IS BUILT
+    - index.html  (this file)  the page layout
+    - styles.css               colors, fonts and layout
+    - shops.js                 THE SHOP LIST — edit this to add or change shops
+    - app.js                   the map behavior (search, filter, zooming)
+
+    The map itself comes from Leaflet (leafletjs.com), a free, widely used
+    map library. The street map underneath comes from OpenStreetMap.
+    Neither needs an account or API key.
+  -->
+
+  <!-- Montserrat: the same typeface the Town of Durham website uses -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap">
+
+  <!-- Leaflet map library + marker-grouping add-on (pinned versions, with integrity checks) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet.markercluster@1.5.3/dist/MarkerCluster.css"
+        integrity="sha256-YU3qCpj/P06tdPBJGPax0bm6Q1wltfwjsho5TR4+TYc=" crossorigin="">
+
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <div class="app">
+
+    <!-- LEFT PANEL: title, search, filter and the list of shops -->
+    <aside class="panel" aria-label="Coffee shops">
+      <header class="panel-head">
+        <p class="eyebrow">Durham, New Hampshire</p>
+        <h1>Bring Your Own Cup in Durham</h1>
+        <p class="lede"><strong id="yes-count">0</strong> coffee spots around town welcome your reusable cup. Choose one to find it on the map.</p>
+
+        <div class="search">
+          <label for="search" class="visually-hidden">Search shops</label>
+          <svg class="search-icon" viewBox="0 0 20 20" aria-hidden="true"><circle cx="8.5" cy="8.5" r="5.5"/><path d="m13 13 4.5 4.5"/></svg>
+          <input id="search" type="search" placeholder="Search shops, drinks or streets" autocomplete="off">
+        </div>
+
+        <label class="toggle" for="only-yes">
+          <input type="checkbox" id="only-yes">
+          <span class="toggle-track" aria-hidden="true"></span>
+          <span class="toggle-text">Only show shops that take reusable cups</span>
+        </label>
+
+        <ul class="legend" aria-label="Map key">
+          <li><span class="legend-pin is-yes" aria-hidden="true"></span>Yes: bring your cup</li>
+          <li><span class="legend-pin is-no" aria-hidden="true"></span>No: not at this time</li>
+        </ul>
+      </header>
+
+      <div class="panel-body" id="panel-body">
+        <div class="sheet-bar">
+          <p class="result-count" id="result-count" aria-live="polite"></p>
+          <button type="button" class="sheet-close" id="sheet-close">Close list</button>
+        </div>
+        <ul class="shop-list" id="shop-list"></ul>
+        <p class="empty" id="empty" hidden>No shops match your search. <button type="button" class="link-button" id="clear-search">Clear search</button></p>
+        <p class="policy-note">Policies can change, so let staff know you've brought your own cup.</p>
+      </div>
+    </aside>
+
+    <!-- RIGHT SIDE: the map -->
+    <main class="map-wrap">
+      <div id="map" role="region" aria-label="Map of coffee shops in Durham, NH"></div>
+
+      <div class="map-tools">
+        <button type="button" class="map-tool" id="locate" title="Show my location">
+          <svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="3.2"/><circle cx="10" cy="10" r="6.5"/><path d="M10 1v2.5M10 16.5V19M1 10h2.5M16.5 10H19"/></svg>
+          <span class="visually-hidden">Show my location</span>
+        </button>
+        <button type="button" class="map-tool" id="show-all" title="Show all shops">
+          <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M3 7.5V3h4.5M12.5 3H17v4.5M17 12.5V17h-4.5M7.5 17H3v-4.5"/></svg>
+          <span class="visually-hidden">Show all shops</span>
+        </button>
+      </div>
+
+      <button type="button" class="list-toggle" id="list-toggle" aria-controls="panel-body" aria-expanded="false">Show list</button>
+      <p class="map-hint" id="map-hint" hidden></p>
+    </main>
+
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js"
+          integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  <script src="https://cdn.jsdelivr.net/npm/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"
+          integrity="sha256-Hk4dIpcqOSb0hZjgyvFOP+cEmDXUKKNE/tT542ZbNQg=" crossorigin=""></script>
+  <script src="shops.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

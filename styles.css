@@ -1,0 +1,813 @@
+/* ==========================================================================
+   Bring Your Own Cup in Durham — styles
+   Colors and type follow the Town of Durham website (navy #163A61,
+   olive #AEB86D, Montserrat). Change a color once here and it updates
+   everywhere.
+   Layout: list panel on the left, map on the right. On phones the list
+   becomes a sheet that slides up over the map.
+   ========================================================================== */
+
+:root {
+  /* Town of Durham brand */
+  --navy:        #163A61;
+  --navy-dark:   #0F2B49;
+  --olive:       #AEB86D;
+  --olive-ink:   #5C6620;   /* darker olive, readable as text on white */
+
+  /* Pin colors */
+  --yes:         #2E7D4F;   /* shops that accept reusable cups */
+  --yes-dark:    #22603C;
+  --yes-tint:    #E3F1E8;
+  --no:          #7C8696;   /* shops that don't (yet) */
+  --no-ink:      #4D5665;
+  --no-tint:     #ECEFF3;
+
+  /* Neutrals */
+  --ink:         #14140C;
+  --ink-soft:    #4A5361;
+  --line:        #D8DFE7;
+  --wash:        #F2F5F8;
+  --surface:     #FFFFFF;
+  --selected:    #E6EDF5;
+  --focus:       #3E7CC0;
+
+  --font: "Montserrat", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+  --panel-width: 360px;
+  --radius: 10px;
+}
+
+/* ---------- Base ---------- */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html, body {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  font-family: var(--font);
+  font-size: 14px;
+  color: var(--ink);
+  background: var(--wash);
+  -webkit-font-smoothing: antialiased;
+}
+
+button, input { font: inherit; color: inherit; }
+
+:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 2px;
+}
+
+.visually-hidden {
+  position: absolute !important;
+  width: 1px; height: 1px;
+  margin: -1px; padding: 0; border: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+[hidden] { display: none !important; }
+
+/* ---------- Page layout ---------- */
+
+.app {
+  display: grid;
+  grid-template-columns: var(--panel-width) minmax(0, 1fr);
+  height: 100%;
+}
+
+.panel {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  background: var(--surface);
+  border-right: 1px solid var(--line);
+}
+
+.map-wrap {
+  position: relative;
+  z-index: 0;            /* keeps map controls under the phone list sheet */
+  min-width: 0;
+}
+
+#map {
+  position: absolute;
+  inset: 0;
+  background: #E8EDF1;
+  font-family: var(--font);
+}
+
+/* ---------- Panel header ---------- */
+
+.panel-head {
+  display: grid;
+  gap: 12px;
+  padding: 20px 20px 16px;
+  border-bottom: 1px solid var(--line);
+}
+
+.eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--olive-ink);
+}
+
+.eyebrow::before {
+  content: "";
+  width: 18px;
+  height: 3px;
+  border-radius: 2px;
+  background: var(--olive);
+}
+
+h1 {
+  margin: 0;
+  font-size: 22px;
+  line-height: 1.2;
+  font-weight: 700;
+  color: var(--navy);
+  text-wrap: balance;
+}
+
+.lede {
+  margin: 0;
+  font-size: 13.5px;
+  line-height: 1.5;
+  color: var(--ink-soft);
+}
+
+.lede strong { color: var(--yes-dark); }
+
+/* Search box */
+.search { position: relative; }
+
+.search-icon {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  width: 16px;
+  height: 16px;
+  transform: translateY(-50%);
+  fill: none;
+  stroke: var(--ink-soft);
+  stroke-width: 2;
+  stroke-linecap: round;
+  pointer-events: none;
+}
+
+.search input {
+  width: 100%;
+  padding: 10px 12px 10px 36px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface);
+  font-size: 14px;
+}
+
+.search input::placeholder { color: #7A8391; }
+
+.search input:focus {
+  outline: none;
+  border-color: var(--navy);
+  box-shadow: 0 0 0 3px rgba(22, 58, 97, 0.15);
+}
+
+/* "Only show Yes" switch */
+.toggle {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13.5px;
+  font-weight: 500;
+  cursor: pointer;
+  user-select: none;
+}
+
+.toggle input {
+  position: absolute;
+  opacity: 0;
+  width: 1px;
+  height: 1px;
+}
+
+.toggle-track {
+  position: relative;
+  flex: none;
+  width: 36px;
+  height: 20px;
+  border-radius: 999px;
+  background: #C3CBD5;
+  transition: background 0.15s;
+}
+
+.toggle-track::after {
+  content: "";
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--surface);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
+  transition: transform 0.15s;
+}
+
+.toggle input:checked + .toggle-track { background: var(--yes); }
+.toggle input:checked + .toggle-track::after { transform: translateX(16px); }
+.toggle input:focus-visible + .toggle-track { outline: 3px solid var(--focus); outline-offset: 2px; }
+
+/* Map key */
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 16px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 12.5px;
+  color: var(--ink-soft);
+}
+
+.legend li {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.legend-pin {
+  width: 11px;
+  height: 11px;
+  border-radius: 50% 50% 50% 0;
+  transform: rotate(-45deg);
+  background: var(--yes);
+}
+
+.legend-pin.is-no { background: var(--no); }
+
+/* ---------- Shop list ---------- */
+
+.panel-body {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+}
+
+.sheet-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 20px 4px;
+}
+
+.result-count {
+  margin: 0;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+.sheet-close { display: none; }
+
+.shop-list {
+  margin: 0;
+  padding: 4px 10px 8px;
+  list-style: none;
+}
+
+.shop-button {
+  display: grid;
+  grid-template-columns: 44px minmax(0, 1fr);
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 10px;
+  border: 0;
+  border-radius: var(--radius);
+  background: none;
+  text-align: left;
+  cursor: pointer;
+}
+
+.shop-button:hover { background: var(--wash); }
+
+.shop-button.is-selected {
+  background: var(--selected);
+  box-shadow: inset 0 0 0 1.5px var(--navy);
+}
+
+.shop-text { min-width: 0; }
+
+.shop-name {
+  display: block;
+  font-size: 14.5px;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.shop-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 2px 8px;
+  margin-top: 3px;
+  font-size: 12.5px;
+  color: var(--ink-soft);
+}
+
+.status {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-weight: 600;
+}
+
+.status::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.status.is-yes { color: var(--yes-dark); }
+.status.is-yes::before { background: var(--yes); }
+.status.is-no { color: var(--no-ink); }
+.status.is-no::before { background: var(--no); }
+
+.distance { font-variant-numeric: tabular-nums; }
+
+/* Logo tiles (list) and the initials shown when a shop has no logo */
+.logo-tile {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface);
+}
+
+.logo-tile img {
+  width: 100%;
+  height: 100%;
+  padding: 4px;
+  object-fit: contain;
+}
+
+.monogram {
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: #FFFFFF;
+  background: var(--navy);
+  border-color: var(--navy);
+}
+
+.monogram.is-no { background: var(--no); border-color: var(--no); }
+
+.empty {
+  margin: 8px 20px;
+  font-size: 13.5px;
+  color: var(--ink-soft);
+}
+
+.link-button {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--navy);
+  font-weight: 600;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.policy-note {
+  margin: auto 20px 0;
+  padding: 12px 0 16px;
+  border-top: 1px solid var(--line);
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--ink-soft);
+}
+
+/* Tone the street map down slightly so the pins stand out */
+.leaflet-tile-pane { filter: saturate(0.7) brightness(1.03); }
+
+/* ---------- Map pins ---------- */
+
+.pin-icon { background: none; border: 0; }
+
+.pin {
+  display: block;
+  width: 32px;
+  height: 42px;
+  transform-origin: 50% 100%;
+  transition: transform 0.15s ease;
+  filter: drop-shadow(0 2px 2px rgba(0, 0, 0, 0.3));
+}
+
+.pin svg { display: block; width: 100%; height: 100%; }
+.pin .pin-body { fill: var(--yes); stroke: #FFFFFF; stroke-width: 1.5; }
+.pin .pin-face { fill: #FFFFFF; }
+.pin .pin-cup  { fill: var(--yes); }
+.pin .pin-line { fill: none; stroke: var(--yes); stroke-width: 1.4; stroke-linecap: round; }
+
+.pin.is-no { transform: scale(0.82); }
+.pin.is-no .pin-body { fill: var(--no); }
+.pin.is-no .pin-cup  { fill: var(--no); }
+.pin.is-no .pin-line { stroke: var(--no); }
+
+.leaflet-marker-icon:hover .pin { transform: scale(1.12); }
+.leaflet-marker-icon:hover .pin.is-no { transform: scale(0.95); }
+.pin.is-selected,
+.leaflet-marker-icon:hover .pin.is-selected { transform: scale(1.25); }
+.pin.is-selected .pin-body { stroke: var(--navy); stroke-width: 2.5; }
+
+/* Grouped pins ("clusters") when zoomed out */
+.cluster-icon { background: none; border: 0; }
+
+.cluster {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border: 2px solid #FFFFFF;
+  border-radius: 50%;
+  background: var(--navy);
+  color: #FFFFFF;
+  font-family: var(--font);
+  font-size: 14px;
+  font-weight: 700;
+  box-shadow: 0 0 0 4px rgba(174, 184, 109, 0.6), 0 2px 6px rgba(0, 0, 0, 0.3);
+  transition: transform 0.15s ease;
+}
+
+.cluster-icon:hover .cluster { transform: scale(1.08); }
+
+/* ---------- Map controls ---------- */
+
+.leaflet-bar {
+  border: 0 !important;
+  border-radius: 8px !important;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3) !important;
+  overflow: hidden;
+}
+
+.leaflet-bar a {
+  width: 34px !important;
+  height: 34px !important;
+  line-height: 34px !important;
+  color: var(--navy) !important;
+  font-family: var(--font);
+}
+
+.map-tools {
+  display: grid;
+  gap: 8px;
+}
+
+.map-tool {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  padding: 0;
+  border: 0;
+  border-radius: 8px;
+  background: var(--surface);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+}
+
+.map-tool:hover { background: var(--wash); }
+
+.map-tool svg {
+  width: 18px;
+  height: 18px;
+  fill: none;
+  stroke: var(--navy);
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.map-tool.is-busy svg { animation: spin 1s linear infinite; }
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.leaflet-control-attribution {
+  font-family: var(--font);
+  font-size: 10.5px;
+}
+
+/* Message bubble at the top of the map (zoom hint, location errors) */
+.map-hint {
+  position: absolute;
+  top: 12px;
+  left: 50%;
+  z-index: 800;
+  max-width: calc(100% - 32px);
+  margin: 0;
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: rgba(20, 20, 12, 0.82);
+  color: #FFFFFF;
+  font-size: 13px;
+  font-weight: 500;
+  text-align: center;
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+
+/* "Show list" button — phones only */
+.list-toggle {
+  display: none;
+  position: absolute;
+  left: 50%;
+  bottom: 18px;
+  z-index: 700;
+  padding: 11px 20px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--navy);
+  color: #FFFFFF;
+  font-size: 14px;
+  font-weight: 600;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  transform: translateX(-50%);
+  cursor: pointer;
+}
+
+/* ---------- Popups ---------- */
+
+.leaflet-popup-content-wrapper {
+  padding: 0;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.25);
+}
+
+.leaflet-popup-content {
+  width: 290px !important;
+  margin: 0;
+  font-family: var(--font);
+  font-size: 13.5px;
+  line-height: 1.45;
+  color: var(--ink);
+}
+
+.leaflet-container a.leaflet-popup-close-button {
+  top: 6px;
+  right: 6px;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.92);
+  color: var(--ink);
+  font-size: 20px;
+  line-height: 26px;
+}
+
+/* Leaflet adds big margins to paragraphs in pop-ups; spacing here comes from gap instead */
+.popup p,
+.popup h2,
+.popup h3 { margin: 0; }
+
+.popup-logo {
+  display: grid;
+  place-items: center;
+  height: 78px;
+  padding: 12px 40px;
+  background: var(--wash);
+  border-bottom: 1px solid var(--line);
+}
+
+.popup-logo img {
+  max-width: 100%;
+  max-height: 52px;
+  object-fit: contain;
+}
+
+.popup-logo .logo-tile {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  font-size: 17px;
+}
+
+.popup-body {
+  display: grid;
+  gap: 12px;
+  padding: 14px 16px 16px;
+}
+
+.popup-title { display: grid; gap: 6px; }
+
+.popup-name {
+  margin: 0;
+  font-size: 17px;
+  line-height: 1.25;
+  font-weight: 700;
+  color: var(--navy);
+}
+
+.popup-type {
+  margin: 0;
+  font-size: 12px;
+  color: var(--ink-soft);
+}
+
+.pill {
+  justify-self: start;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.pill::before {
+  content: "";
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+}
+
+.pill.is-yes { background: var(--yes-tint); color: var(--yes-dark); }
+.pill.is-yes::before { background: var(--yes); }
+.pill.is-no { background: var(--no-tint); color: var(--no-ink); }
+.pill.is-no::before { background: var(--no); }
+
+.popup .popup-section h3 {
+  margin: 0 0 2px;
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+.popup-section p { margin: 0; }
+.popup-where { color: var(--ink-soft); }
+
+.popup-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 12px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface);
+  color: var(--navy) !important;
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.btn:hover { border-color: var(--navy); }
+
+.btn svg {
+  width: 14px;
+  height: 14px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.btn-primary {
+  background: var(--navy);
+  border-color: var(--navy);
+  color: #FFFFFF !important;
+}
+
+.btn-primary:hover { background: var(--navy-dark); }
+
+.popup-note {
+  margin: 0;
+  padding-top: 10px;
+  border-top: 1px solid var(--line);
+  font-size: 12px;
+  color: var(--ink-soft);
+}
+
+/* ---------- Medium widths (e.g. the town site's content column) ---------- */
+
+@media (max-width: 1000px) {
+  :root { --panel-width: 310px; }
+  .panel-head { padding: 16px 16px 14px; }
+  h1 { font-size: 20px; }
+  .sheet-bar { padding: 12px 16px 4px; }
+  .shop-list { padding: 4px 6px 8px; }
+  .policy-note { margin: auto 16px 0; }
+}
+
+/* ---------- Phones and narrow embeds ---------- */
+
+@media (max-width: 760px) {
+  .app {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto minmax(0, 1fr);
+  }
+
+  .panel {
+    border-right: 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .panel-head {
+    gap: 8px;
+    padding: 12px 16px;
+    border-bottom: 0;
+  }
+
+  .eyebrow, .lede, .legend { display: none; }
+
+  h1 { font-size: 17px; }
+
+  /* The list becomes a sheet that slides up over the map */
+  .panel-body {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1000;
+    height: min(72%, 560px);
+    border-radius: 16px 16px 0 0;
+    background: var(--surface);
+    box-shadow: 0 -8px 28px rgba(0, 0, 0, 0.25);
+    transform: translateY(105%);
+    visibility: hidden;
+    transition: transform 0.25s ease, visibility 0.25s;
+  }
+
+  .panel-body.is-open {
+    transform: none;
+    visibility: visible;
+  }
+
+  .sheet-bar {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    padding: 12px 16px 8px;
+    background: var(--surface);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .sheet-close {
+    display: inline-flex;
+    padding: 6px 12px;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    background: var(--surface);
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--navy);
+    cursor: pointer;
+  }
+
+  .list-toggle { display: inline-flex; }
+
+  .shop-list { padding: 6px 6px 8px; }
+  .policy-note { margin: auto 16px 0; }
+
+  /* A more compact pop-up card so it fits above the pin on small screens */
+  .leaflet-popup-content { width: 264px !important; font-size: 13px; }
+  .popup-logo { height: 56px; padding: 8px 40px; }
+  .popup-logo img { max-height: 38px; }
+  .popup-logo .logo-tile { width: 40px; height: 40px; font-size: 14px; }
+  .popup-body { gap: 9px; padding: 12px 14px 14px; }
+  .popup-name { font-size: 16px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    transition: none !important;
+    animation: none !important;
+  }
+}
