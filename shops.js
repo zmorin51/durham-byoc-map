@@ -217,6 +217,20 @@ window.SHOPS = [
     logoBackground: "#2f4a2b"
   },
 
+  {
+    name: "Crumb and Crema",
+    reusableCups: "yes",
+    type: "UNH Dining",
+    serves: "Coffee, espresso drinks and baked goods at the new café in Union Court.",
+    perk: "25¢ off when you bring your own cup",
+    address: "83 Main St, Durham, NH 03824",
+    where: "Union Court, Memorial Union Building (MUB), UNH",
+    lat: 43.134329, lng: -70.929994,
+    googlePlaceId: "ChIJL-Pyjk2T4okRLV2zmF7M3gI",
+    website: "https://www.unh.edu/dining/locations",
+    logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/University_of_New_Hampshire_logo.svg/250px-University_of_New_Hampshire_logo.svg.png"
+  },
+
   // ----------------------------------------------------------------- NO ---
 
   {
@@ -243,19 +257,6 @@ window.SHOPS = [
     googlePlaceId: "ChIJYxllLZaT4okRIlxo9kIpuC0",
     website: "https://www.dunkindonuts.com",
     logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/22/Dunkin%27_logo.svg/250px-Dunkin%27_logo.svg.png"
-  },
-
-  {
-    name: "New café at Union Court",
-    reusableCups: "no",
-    type: "UNH Dining · Opening soon",
-    serves: "A new coffee shop coming to Union Court. Not open yet.",
-    address: "83 Main St, Durham, NH 03824",
-    where: "Union Court, Memorial Union Building (MUB), UNH",
-    lat: 43.134329, lng: -70.929994,
-    googlePlaceId: "ChIJL-Pyjk2T4okRLV2zmF7M3gI",
-    website: "https://www.unh.edu/dining/locations",
-    logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/University_of_New_Hampshire_logo.svg/250px-University_of_New_Hampshire_logo.svg.png"
   }
 
 ];
