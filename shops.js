@@ -13,6 +13,10 @@
  *  reusableCups   "yes" if the shop accepts reusable cups, otherwise "no".
  *  type           Short label shown under the name (e.g. "Independent café").
  *  serves         One or two sentences on what they serve.
+ *  perk           Optional. A reusable-cup discount or reward, shown as a
+ *                 highlighted line on the card and a tag in the list
+ *                 (e.g. "25¢ off when you bring your own cup"). Leave it
+ *                 out, or "", if there isn't one.
  *  address        Street address. Also used to build the Google Maps link.
  *  where          Optional extra directions ("Inside Dimond Library").
  *                 Leave as "" if not needed.
@@ -39,19 +43,6 @@
 window.SHOPS = [
 
   // ---------------------------------------------------------------- YES ---
-
-  {
-    name: "Breaking New Grounds",
-    reusableCups: "yes",
-    type: "Independent café",
-    serves: "Coffee roasted in-house, espresso drinks and teas, plus bagels and baked goods made fresh daily. Whole beans sold by the bag.",
-    address: "50 Main St, Durham, NH 03824",
-    where: "",
-    lat: 43.134356, lng: -70.926314,
-    googlePlaceId: "ChIJU8rC6JaT4okRicErDuqX-3I",
-    website: "https://www.instagram.com/bng.durham/",
-    logo: ""
-  },
 
   {
     name: "The Grind",
@@ -149,6 +140,7 @@ window.SHOPS = [
     reusableCups: "yes",
     type: "UNH Dining",
     serves: "Coffee, baked goods, sandwiches and grab-and-go snacks for a study break.",
+    perk: "25¢ off when you bring your own cup",
     address: "18 Library Way, Durham, NH 03824",
     where: "Inside Dimond Library, one flight up from the main entrance",
     lat: 43.135615, lng: -70.932964,
@@ -162,6 +154,7 @@ window.SHOPS = [
     reusableCups: "yes",
     type: "UNH Dining",
     serves: "Starbucks coffee and specialty drinks, made-to-order sandwiches and grab-and-go options.",
+    perk: "25¢ off when you bring your own cup",
     address: "10 Garrison Ave, Durham, NH 03824",
     where: "Inside Peter T. Paul College of Business and Economics",
     lat: 43.136691, lng: -70.928888,
@@ -175,6 +168,7 @@ window.SHOPS = [
     reusableCups: "yes",
     type: "UNH Dining",
     serves: "Grab-and-go coffee, snacks and quick meals between classes.",
+    perk: "25¢ off when you bring your own cup",
     address: "33 Academic Way, Durham, NH 03824",
     where: "Northwest lobby of Kingsbury Hall",
     lat: 43.134412, lng: -70.934900,
@@ -197,19 +191,6 @@ window.SHOPS = [
   },
 
   {
-    name: "Three Chimneys Inn & ffrost Sawyer Tavern",
-    reusableCups: "yes",
-    type: "Inn & tavern",
-    serves: "Historic inn serving seasonal New England fare, desserts, coffee and cocktails in the tavern and dining rooms.",
-    address: "17 Newmarket Rd, Durham, NH 03824",
-    where: "",
-    lat: 43.132236, lng: -70.918710,
-    googlePlaceId: "ChIJyXtyMpCT4okRvAtMxWRRrYg",
-    website: "https://www.threechimneysinn.com/dining",
-    logo: "https://images.squarespace-cdn.com/content/v1/68baeb1a4a84c31a357cf5f9/0b67f9fc-5b3b-4545-b2ba-24be4cae589d/favicon.ico"
-  },
-
-  {
     name: "Durham Public Library Café",
     reusableCups: "yes",
     type: "Library café",
@@ -220,6 +201,20 @@ window.SHOPS = [
     googlePlaceId: "ChIJ31s1LQWT4okRpbeK05dzEek",
     website: "https://durhampubliclibrary.org",
     logo: "https://durhampubliclibrary.org/wp-content/themes/durham-public-library/images/logo.png"
+  },
+
+  {
+    name: "Market & Café at Emery Farm",
+    reusableCups: "yes",
+    type: "Farm market café",
+    serves: "Coffee and seasonal lattes, breakfast sandwiches, smoothies, cider donuts and baked goods, plus the farm's own produce.",
+    address: "147 Piscataqua Rd, Durham, NH 03824",
+    where: "On Route 4, east of downtown",
+    lat: 43.132272, lng: -70.875918,
+    googlePlaceId: "ChIJYbmnwvST4okRn-HZ2KhN7c4",
+    website: "https://emeryfarm.com",
+    logo: "https://img1.wsimg.com/isteam/ip/ed81d990-3d37-4b2c-b8e6-d01b2f45b96b/logo/a61dc497-9d71-4f96-b971-475c48c7aa03.png/:/rs=w:180,h:180,m",
+    logoBackground: "#2f4a2b"
   },
 
   // ----------------------------------------------------------------- NO ---
@@ -248,33 +243,6 @@ window.SHOPS = [
     googlePlaceId: "ChIJYxllLZaT4okRIlxo9kIpuC0",
     website: "https://www.dunkindonuts.com",
     logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/22/Dunkin%27_logo.svg/250px-Dunkin%27_logo.svg.png"
-  },
-
-  {
-    name: "Market & Café at Emery Farm",
-    reusableCups: "no",
-    type: "Farm market café",
-    serves: "Coffee and seasonal lattes, breakfast sandwiches, smoothies, cider donuts and baked goods, plus the farm's own produce.",
-    address: "147 Piscataqua Rd, Durham, NH 03824",
-    where: "On Route 4, east of downtown",
-    lat: 43.132272, lng: -70.875918,
-    googlePlaceId: "ChIJYbmnwvST4okRn-HZ2KhN7c4",
-    website: "https://emeryfarm.com",
-    logo: "https://img1.wsimg.com/isteam/ip/ed81d990-3d37-4b2c-b8e6-d01b2f45b96b/logo/a61dc497-9d71-4f96-b971-475c48c7aa03.png/:/rs=w:180,h:180,m",
-    logoBackground: "#2f4a2b"
-  },
-
-  {
-    name: "Franz's Food",
-    reusableCups: "no",
-    type: "Sandwich shop",
-    serves: "Made-to-order breakfast wraps, sandwiches, fries and iced coffee.",
-    address: "46 Main St, Durham, NH 03824",
-    where: "",
-    lat: 43.134270, lng: -70.926083,
-    googlePlaceId: "ChIJl8Ho6JaT4okR4fEeU7QzCLo",
-    website: "",
-    logo: ""
   },
 
   {

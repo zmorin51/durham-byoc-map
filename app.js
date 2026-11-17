@@ -251,7 +251,7 @@
     var visible = shops.filter(function (shop) {
       if (onlyYes && !shop.isYes) return false;
       if (!query) return true;
-      var haystack = [shop.name, shop.type, shop.serves, shop.address, shop.where].join(" ").toLowerCase();
+      var haystack = [shop.name, shop.type, shop.serves, shop.perk, shop.address, shop.where, shop.perk ? "discount deal savings" : ""].join(" ").toLowerCase();
       return haystack.indexOf(query) !== -1;
     });
 
@@ -299,13 +299,20 @@
         '<span class="status ' + statusClass(shop) + '">' + (shop.isYes ? "Yes" : "No") + "</span>" +
         "<span>" + esc(shortAddress(shop)) + "</span>" +
         distance +
-      "</span>";
+      "</span>" +
+      (shop.perk ? '<span class="shop-perk">' + esc(perkTag(shop.perk)) + "</span>" : "");
 
     btn.appendChild(logoTile(shop));
     btn.appendChild(text);
     btn.addEventListener("click", function () { selectShop(shop, "list"); });
     li.appendChild(btn);
     return li;
+  }
+
+  // Short version of a perk for the list, e.g. "25¢ off when you bring..." -> "25¢ off"
+  function perkTag(perk) {
+    var m = perk.match(/^(.*?\boff)\b/i);
+    return m ? m[1] : perk;
   }
 
   function scrollListTo(shop) {
@@ -349,6 +356,7 @@
           '<span class="pill ' + statusClass(shop) + '">' +
             (shop.isYes ? "Yes: reusable cups welcome" : "No: not at this time") +
           "</span>" +
+          (shop.perk ? '<p class="popup-perk">' + esc(shop.perk) + "</p>" : "") +
         "</div>" +
         '<div class="popup-section"><h3>What they serve</h3><p>' + esc(shop.serves || "") + "</p></div>" +
         '<div class="popup-section"><h3>Where</h3><p>' + where + "</p></div>" +

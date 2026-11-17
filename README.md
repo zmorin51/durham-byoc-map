@@ -54,6 +54,10 @@ Open `shops.js` in any text editor (Notepad works). Each shop is one block:
 - **Find lat/lng:** in Google Maps, right-click the spot and click the two numbers
   at the top of the menu to copy them. The first is `lat`, the second is `lng`.
 - **Remove a shop:** delete its block.
+- **Add a reusable-cup discount:** add a line like
+  `perk: "25¢ off when you bring your own cup",` under `serves`. It shows as a
+  highlighted line on the shop's card and a short tag in the list. Delete the
+  line when the discount ends.
 
 Save the file and refresh the page to see the change. If the map goes blank, a
 comma or quote mark is usually missing. Press F12 and look at the Console tab

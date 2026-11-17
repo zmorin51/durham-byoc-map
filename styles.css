@@ -329,6 +329,32 @@ h1 {
   color: var(--ink-soft);
 }
 
+/* Reusable-cup discount (the "perk" field in shops.js) */
+.shop-perk {
+  display: inline-block;
+  margin-top: 4px;
+  padding: 1px 7px;
+  border-radius: 999px;
+  background: #F1F3DF;
+  color: var(--olive-ink);
+  font-size: 11.5px;
+  font-weight: 600;
+}
+
+.popup-perk {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 8px 0 0;
+  padding: 6px 10px;
+  border-left: 3px solid var(--olive);
+  border-radius: 4px;
+  background: #F1F3DF;
+  color: var(--olive-ink);
+  font-size: 13px;
+  font-weight: 600;
+}
+
 .status {
   display: inline-flex;
   align-items: center;
