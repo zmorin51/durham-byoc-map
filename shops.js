@@ -213,8 +213,7 @@ window.SHOPS = [
     lat: 43.132272, lng: -70.875918,
     googlePlaceId: "ChIJYbmnwvST4okRn-HZ2KhN7c4",
     website: "https://emeryfarm.com",
-    logo: "https://img1.wsimg.com/isteam/ip/ed81d990-3d37-4b2c-b8e6-d01b2f45b96b/logo/a61dc497-9d71-4f96-b971-475c48c7aa03.png/:/rs=w:180,h:180,m",
-    logoBackground: "#2f4a2b"
+    logo: "logos/emery-farm.png"
   },
 
   {
